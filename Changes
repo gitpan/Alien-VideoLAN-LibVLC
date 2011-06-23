@@ -1,5 +1,9 @@
 Revision history for Alien-VideoLAN-LibVLC
 
+0.03    2011-06-23, 18:63 UTC+7
+      - Add suppress_error_message parameter.
+      - Add few links to See Also chapter.
+
 0.02    2011-06-23, 09:17 UTC+7
       - Remove stub EXPORTS section from documentation.
 

@@ -3,7 +3,6 @@ package Alien::VideoLAN::LibVLC;
 use warnings;
 use strict;
 use ExtUtils::PkgConfig;
-use Carp;
 
 =head1 NAME
 
@@ -11,11 +10,11 @@ Alien::VideoLAN::LibVLC - Find installed libvlc.
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 sub _find {
 	my $self = shift;
@@ -23,7 +22,16 @@ sub _find {
 	my %a = @_;
 
 	my $version = $a{version} // '';
-	my %p = ExtUtils::PkgConfig->find("$lib $version");
+	my %p;
+
+	if ($a{suppress_error_message}) {
+		my $str;
+		open my $fh, '>', \$str;
+		local *STDERR = $fh;
+		%p = ExtUtils::PkgConfig->find("$lib $version");
+	} else {
+		%p = ExtUtils::PkgConfig->find("$lib $version");
+	}
 
 	my @cflags = grep { $_ ne '' } split /\s/, $p{cflags};
 	$p{cflags} = \@cflags;
@@ -49,11 +57,16 @@ sub _find {
 
     Alien::VideoLAN::LibVLC->find_libvlc();
     Alien::VideoLAN::LibVLC->find_libvlc(version => '>= 1.1.9');
-    Alien::VideoLAN::LibVLC->find_libvlc(version => '= 1.1.10');
+    Alien::VideoLAN::LibVLC->find_libvlc(version => '= 1.1.10',
+                                         suppress_error_message => 1);
 
 Finds installed libvlc.
+
 If C<version> parameter is specified, required version is needed.
 Check documentation of C<pkg-config> for format of version.
+
+If C<suppress_error_message> parameter is specified and is true,
+nothing will be put to STDERR if libvlc is not found.
 
 Returns hash with following fields:
 
@@ -129,6 +142,10 @@ L<http://search.cpan.org/dist/Alien-VideoLAN-LibVLC/>
 =head1 SEE ALSO
 
 L<http://www.videolan.org/vlc/>
+
+L<http://www.videolan.org/vlc/libvlc.html>
+
+L<Alien>
 
 =head1 LICENSE AND COPYRIGHT
 

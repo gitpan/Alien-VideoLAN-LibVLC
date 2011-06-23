@@ -17,9 +17,9 @@ name: Alien-VideoLAN-LibVLC
 provides:
   Alien::VideoLAN::LibVLC:
     file: lib/Alien/VideoLAN/LibVLC.pm
-    version: 0.02
+    version: 0.03
 requires:
   ExtUtils::PkgConfig: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.02
+version: 0.03
