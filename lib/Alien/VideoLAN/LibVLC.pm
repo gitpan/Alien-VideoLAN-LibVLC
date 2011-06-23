@@ -11,11 +11,11 @@ Alien::VideoLAN::LibVLC - Find installed libvlc.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub _find {
 	my $self = shift;
@@ -42,11 +42,6 @@ sub _find {
     print $x{version};
 
     my %y = Alien::VideoLAN::LibVLC->find_libvlc(version => '>= 1.1.9');
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
 
 =head1 METHODS
 

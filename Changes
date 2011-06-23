@@ -1,5 +1,8 @@
 Revision history for Alien-VideoLAN-LibVLC
 
+0.02    2011-06-23, 09:17 UTC+7
+      - Remove stub EXPORTS section from documentation.
+
 0.01    2011-06-22, 22:01 UTC+7
       - First version, released on an unsuspecting world.
 
