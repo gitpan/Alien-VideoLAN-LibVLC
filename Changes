@@ -1,6 +1,9 @@
 Revision history for Alien-VideoLAN-LibVLC
 
-0.03    2011-06-23, 18:63 UTC+7
+0.04    2011-06-24, 08:21 UTC+7
+      - Don't use // operator, it doesn't work with perl 5.8
+
+0.03    2011-06-23, 18:53 UTC+7
       - Add suppress_error_message parameter.
       - Add few links to See Also chapter.
 

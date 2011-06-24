@@ -10,18 +10,19 @@ Alien::VideoLAN::LibVLC - Find installed libvlc.
 
 =head1 VERSION
 
-Version 0.03
+Version 0.04
 
 =cut
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 sub _find {
 	my $self = shift;
 	my $lib = shift;
 	my %a = @_;
 
-	my $version = $a{version} // '';
+	my $version = $a{version};
+	$version = '' unless defined $version;
 	my %p;
 
 	if ($a{suppress_error_message}) {

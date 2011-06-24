@@ -34,7 +34,7 @@
    "provides" : {
       "Alien::VideoLAN::LibVLC" : {
          "file" : "lib/Alien/VideoLAN/LibVLC.pm",
-         "version" : "0.03"
+         "version" : "0.04"
       }
    },
    "release_status" : "stable",
@@ -43,5 +43,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "0.03"
+   "version" : "0.04"
 }
