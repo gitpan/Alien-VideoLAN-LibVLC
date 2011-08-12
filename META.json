@@ -1,10 +1,10 @@
 {
-   "abstract" : "Find installed LibVLC",
+   "abstract" : "Use VLC libraries",
    "author" : [
       "Alexey Sokolov <alexey@alexeysokolov.co.cc>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.110930",
+   "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112150",
    "license" : [
       "perl_5"
    ],
@@ -16,32 +16,62 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "Module::Build" : "0.20",
-            "Test::More" : 0
+            "Archive::Extract" : 0,
+            "Archive::Tar" : 0,
+            "Archive::Zip" : 0,
+            "Digest::SHA" : 0,
+            "ExtUtils::CBuilder" : 0,
+            "File::Fetch" : "0.24",
+            "File::Find" : 0,
+            "File::Path" : "2.08",
+            "File::ShareDir" : 0,
+            "File::Spec" : 0,
+            "File::Temp" : 0,
+            "File::Which" : 0,
+            "Module::Build" : "0.36",
+            "Text::Patch" : "1.4"
          }
       },
       "configure" : {
          "requires" : {
-            "Module::Build" : "0.20"
+            "Archive::Extract" : 0,
+            "Capture::Tiny" : "0.11",
+            "Digest::SHA" : 0,
+            "ExtUtils::PkgConfig" : 0,
+            "File::Fetch" : "0.24",
+            "File::Find" : 0,
+            "File::Path" : "2.08",
+            "File::ShareDir" : 0,
+            "File::Spec" : 0,
+            "File::Which" : 0,
+            "Module::Build" : "0.36",
+            "Text::Patch" : "1.4"
          }
       },
       "runtime" : {
          "requires" : {
-            "ExtUtils::PkgConfig" : 0
+            "Capture::Tiny" : "0.11",
+            "Carp" : 0,
+            "ExtUtils::CBuilder" : 0,
+            "ExtUtils::PkgConfig" : 0,
+            "File::ShareDir" : "1.00",
+            "File::Spec" : 0,
+            "File::Temp" : 0,
+            "File::Which" : 0
          }
       }
    },
    "provides" : {
       "Alien::VideoLAN::LibVLC" : {
          "file" : "lib/Alien/VideoLAN/LibVLC.pm",
-         "version" : "0.04"
+         "version" : "0.0_5"
       }
    },
-   "release_status" : "stable",
+   "release_status" : "testing",
    "resources" : {
       "license" : [
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "0.04"
+   "version" : "0.0_5"
 }

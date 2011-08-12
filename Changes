@@ -1,5 +1,8 @@
 Revision history for Alien-VideoLAN-LibVLC
 
+0.0_5   2011-08-12, 22:13 UTC+7
+      - Use Alien::SDL as base for this module.
+
 0.04    2011-06-24, 08:21 UTC+7
       - Don't use // operator, it doesn't work with perl 5.8
 

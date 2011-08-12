@@ -1,0 +1,4 @@
+TODO list for Perl module Alien::VideoLAN::LibVLC
+
+- separate VLC-only logic from Alien-only logic (make Alien::Helper?)
+- add option to install from source, from prebuilt (reuse SDL's code)

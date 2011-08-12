@@ -1,46 +1,147 @@
-Alien-VideoLAN-LibVLC
+NAME
+    Alien::VideoLAN::LibVLC - building, finding and using VLC binaries
 
-This module checks if libvlc is installed on the system.
-If libvlc is installed, provides some flags for compiler.
+VERSION
+    Version 0.0_5
 
-INSTALLATION
+SYNOPSIS
+    Alien::VideoLAN::LibVLC tries (in given order) during its installation:
 
-To install this module, run the following commands:
+    * Locate an already installed VLC via pkg-config.
+    * Download prebuilt VLC binaries (if available for your platform). Not
+    implemented.
+    * Build VLC binaries from source codes (if possible on your system). Not
+    implemented.
 
-	perl Build.PL
-	./Build
-	./Build test
-	./Build install
+    Later you can use Alien::VideoLAN::LibVLC in your module that needs to
+    link agains LibVLC and/or related libraries like this:
 
-SUPPORT AND DOCUMENTATION
+            # Sample Makefile.pl
+            use ExtUtils::MakeMaker;
+            use Alien::VideoLAN::LibVLC;
 
-After installing, you can find documentation for this module with the
-perldoc command.
+            WriteMakefile(
+              NAME         => 'Any::VLC::Module',
+              VERSION_FROM => 'lib/Any/VLC/Module.pm',
+              LIBS         => Alien::VideoLAN::LibVLC->config('libs', [-lAdd_Lib]),
+              INC          => Alien::VideoLAN::LibVLC->config('cflags'),
+              # + additional params
+            );
 
-    perldoc Alien::VideoLAN::LibVLC
+DESCRIPTION
+    Please see Alien for the manifesto of the Alien namespace.
 
-You can also look for information at:
+    In short `Alien::LibVLC' can be used to detect and get configuration
+    settings from an installed VLC and related libraries. Based on your
+    platform it (doesn't currently) offers the possibility to download and
+    install prebuilt binaries or to build VLC & co. from source codes.
 
-    RT, CPAN's request tracker
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-VideoLAN-LibVLC
+    The important facts:
 
-    AnnoCPAN, Annotated CPAN documentation
-        http://annocpan.org/dist/Alien-VideoLAN-LibVLC
+    * The module does not modify in any way the already existing VLC
+    installation on your system.
+    * If you reinstall VLC libs on your system you do not need to reinstall
+    Alien::VideoLAN::LibVLC (providing that you use the same directory for
+    the new installation).
+    * The prebuild binaries and/or binaries built from sources are always
+    installed into perl module's 'share' directory.
+    * If you use prebuild binaries and/or binaries built from sources it
+    happens that some of the dynamic libraries (*.so, *.dll) will not
+    automaticly loadable as they will be stored somewhere under perl
+    module's 'share' directory. To handle this scenario
+    Alien::VideoLAN::LibVLC offers some special functionality (see below).
 
-    CPAN Ratings
-        http://cpanratings.perl.org/d/Alien-VideoLAN-LibVLC
+METHODS
+  config()
+    This function is the main public interface to this module. These
+    functions return string:
 
-    Search CPAN
-        http://search.cpan.org/dist/Alien-VideoLAN-LibVLC/
+            Alien::VideoLAN::LibVLC->config('prefix');
+            Alien::VideoLAN::LibVLC->config('version');
+            Alien::VideoLAN::LibVLC->config('includedir');
 
+    These functions return lists of strings:
 
-LICENSE AND COPYRIGHT
+            Alien::VideoLAN::LibVLC->config('ldflags');
+            Alien::VideoLAN::LibVLC->config('cflags');
 
-Copyright (C) 2011 Alexey Sokolov
+    On top of that this function supports special parameters:
 
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
+            Alien::VideoLAN::LibVLC->config('ld_shared_libs');
 
-See http://dev.perl.org/licenses/ for more information.
+    Returns a reference to a list of full paths to shared libraries (*.so,
+    *.dll) that will be required for running the resulting binaries you have
+    linked with VLC libs.
+
+            Alien::VideoLAN::LibVLC->config('ld_paths');
+
+    Returns a reference to a list of full paths to directories with shared
+    libraries (*.so, *.dll) that will be required for running the resulting
+    binaries you have linked with VLC libs.
+
+    NOTE: config('ld_<something>') return an empty list/hash if you have
+    decided to use VLC libraries already installed on your system. This
+    concerns pkg-config usage.
+
+  check_header()
+    This function checks the availability of given header(s) when using
+    compiler options provided by
+    "Alien::VideoLAN::LibVLC->config('cflags')".
+
+            Alien::VideoLAN::LibVLC->check_header('vlc.h');
+            Alien::VideoLAN::LibVLC->check_header('vlc.h', 'libvlc_media.h');
+
+    Returns 1 if all given headers are available, 0 otherwise.
+
+  get_header_version()
+    Tries to find a header file specified as a param in VLC prefix direcotry
+    and based on "#define" macros inside this header file tries to get a
+    version triplet. Only `libvlc_version.h' makes sense.
+
+            Alien::VideoLAN::LibVLC->get_header_version('libvlc_version.h');
+
+    Returns string like '1.2.3' or undef if not able to find and parse
+    version info.
+
+  `find_libvlc' *(deprecated)*
+        Alien::VideoLAN::LibVLC->find_libvlc();
+        Alien::VideoLAN::LibVLC->find_libvlc(version => '>= 1.1.9');
+        Alien::VideoLAN::LibVLC->find_libvlc(version => '= 1.1.10',
+                                             suppress_error_message => 1);
+
+    Finds installed libvlc.
+
+    If `version' parameter is specified, required version is needed. Check
+    documentation of `pkg-config' for format of version.
+
+    If `suppress_error_message' parameter is specified and is true, nothing
+    will be put to STDERR if libvlc is not found.
+
+    Returns hash with following fields:
+
+    * version
+        a string with version.
+
+    * cflags
+        arrayref of strings, e.g. `['-I/foo/bar']'
+
+    * ldflags
+        arrayref of strings, e.g. `['-L/foo/baz', '-lvlc']'
+
+    If libvlc of specified version isn't found, croaks.
+
+BUGS
+    Please post issues and bugs at
+    http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-VideoLAN-LibVLC
+
+ACKNOWLEDGEMENTS
+            Thanks to authors of other Alien modules.
+            Since 0.05 this module is based on L<Alien::SDL>.
+
+COPYRIGHT
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+    The full text of the license can be found in the LICENSE file included
+    with this module.
 
